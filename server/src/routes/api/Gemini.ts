@@ -13,19 +13,19 @@ const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
 function parseJsonArray(input: string): any {
     const cleanedString = input.replace(/```json\s|\s```$/g, '').trim();
-        return JSON.parse(cleanedString);
-    }
+    return JSON.parse(cleanedString);
+}
 
-    const router = express.Router();
-    
-    //get response based on variable
-    router.get('/', async (_req: Request, res: Response) => {
-        try {
+const router = express.Router();
+
+//get response based on variable
+router.get('/', async (_req: Request, res: Response) => {
+    try {
 
         // TODO: PULL GAMES FROM SQL
         const games = [''];
         const gameInject = games.toString();
-        
+
         const prompt = `My favorite video games are ${gameInject}.
          As a modern video game reviewer with a wide knowledge of video games both popular and obscure, please recommend me three more games to play, and explain why I should play them.
          You should recommend a wide variety of games related to the user's choices, and games that you are less likely to recommend repeatedly.
@@ -36,15 +36,16 @@ function parseJsonArray(input: string): any {
 
         const result = await model.generateContent(prompt);
 
-        const cleanResult = parseJsonArray(result.response.text());
+       const cleanResult = parseJsonArray(result.response.text());
 
-        res.status(200).json(cleanResult);
+        // res.status(200).json(result);
 
         res.status(200).send(cleanResult);
+        console.log('Gemini says:', cleanResult );
 
     } catch (error) {
 
-        res.status(500).json({ error: 'Error fetching Gemini Response.' });
+        res.status(500).json({ error });
 
     }
 })
