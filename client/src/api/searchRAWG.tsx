@@ -3,7 +3,7 @@ import { RawgData } from "../interfaces/RawgData";
 
 const searchGames = async (): Promise<RawgData> => {
     try {
-      const response = await fetch('/api/RAWG/games', {
+      const response = await fetch('/api/RAWG/allGames', {
         headers: {
           'Content-Type': 'application/json'
         }
