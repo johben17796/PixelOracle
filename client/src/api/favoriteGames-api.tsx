@@ -18,7 +18,7 @@ const getFavorites = async (user_id: number) => {
     }
 };
 
-const addFavorites = async (user_id: number , newFavorites: RawgData) => {
+const addFavorites = async (user_id: number , newFavorites: RawgData[]) => {
     console.log({"favorites": newFavorites});
     console.log(`Adding newFavorites to user favorite list.`);
 try {
