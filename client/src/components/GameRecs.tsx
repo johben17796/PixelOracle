@@ -103,7 +103,7 @@ const RecsPanel: React.FC = () => {
             })
             setRenderRec(true);
         }
-    });
+    }, []);
 
     useEffect(() => {
         if (renderIndex === false) {
@@ -111,11 +111,11 @@ const RecsPanel: React.FC = () => {
             setGreeting(greetingArray[randomIndex]);
             setRenderIndex(true);
         }
-    });
+    }, []);
 
     useEffect(() => {
         setRecSection(GameRecs(rec, greeting));
-    });
+    }, []);
 
     return (
         <section className='RecsPanel'>
