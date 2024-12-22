@@ -8,20 +8,26 @@ import { RawgData } from "../interfaces/RawgData";
 
 //return code
 export default function Home() {
-
+    // useState for the RAWG search field
     const [search, setSearch] = useState<string>('');
     const handleInputchange = (e: any) => {
         const { value } = e.target;
         setSearch(value);
     }
-
+    // useState for the Favorite Deletion Field
+    const [indexSlug, setIndexSlug] = useState<string>('');
+    const handleInputchange1 = (e: any) => {
+        const { value } = e.target;
+        setIndexSlug(value);
+    }
+    // useState for the saved user favorites
     const [userFavorites, setUserFavorites] = useState<RawgData[]>([{
         name: '',
         slug: '',
         background_image: '',
         released: ''
     }]);
-
+    // useState for pending changes to the user favorites
     const [newFavorites, setNewFavorites] = useState<RawgData[]>([{
         name: '',
         slug: '',
@@ -29,11 +35,12 @@ export default function Home() {
         released: ''
     }]);
 
-    // Troubleshooting functions to display useStates
+    // Troubleshooting function to display useState for the saved user favorites
     // const viewCurrentFavorites = async (event: FormEvent) => {
     //     event.preventDefault();
     //     console.log(userFavorites)};
 
+    // Troubleshooting function to display useState for pending changes to the user favorites
     const viewNewFavorites = async (event: FormEvent) => {
         event.preventDefault();
         console.log(newFavorites)};
@@ -97,7 +104,21 @@ export default function Home() {
         }
     }
 
-    // Function to add favorite games to a user profile
+    // Function to locate the index of a specific favorite object and remove it from the array
+    const locateRemoveIndex = async (event: FormEvent, slug: string) => {
+        event.preventDefault();
+        try {
+            const resultsIndex = userFavorites.findIndex((element) => (element.slug === `${slug}`));
+            console.log(`Flagging favorite at index ${resultsIndex} of array for deletion.`);
+            const arrayLeft = userFavorites.slice(0, resultsIndex);
+            const arrayRight = userFavorites.slice(resultsIndex+1);
+            setNewFavorites([...arrayLeft, ...arrayRight]);
+        } catch (err) {
+            console.error('No matches found!', err);
+        }
+    };
+
+    // Function to update the favorite games list on a user profile
     const addNewFavorites = async (event: FormEvent, user_id: number) => {
         event.preventDefault();
         try {
@@ -139,11 +160,21 @@ export default function Home() {
             </form>
 
             <form onSubmit={(event: FormEvent) => viewNewFavorites(event)}>
-                <button type="submit">VIEW FAVORITES TO BE ADDED</button>
+                <button type="submit">VIEW PENDING FAVORITES CHANGES</button>
             </form>
 
             <form onSubmit={(event: FormEvent) => addNewFavorites(event, 1)}>
-                <button type="submit">ADD NEW FAVORITES</button>
+                <button type="submit">UPDATE FAVORITES LIST</button>
+            </form>
+
+            <form className="searchArea" onSubmit={(event: FormEvent) => locateRemoveIndex(event, indexSlug)}>
+                <input
+                    value={indexSlug}
+                    placeholder="Index Slug"
+                    id="locateIndex"
+                    onChange={handleInputchange1}
+                />
+                <button type="submit">FLAG FAVORITE FOR REMOVAL</button>
             </form>
 
             <p>Or pick from the list below!</p>
