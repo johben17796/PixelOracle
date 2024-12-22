@@ -3,8 +3,8 @@ export const getRec = async () => {
         const response = await fetch('/api/Gemini')
             
         const data = await response.json();
-
-        // if (response.ok) {
+        // this below was commented out previously without the ! in line 7.
+        // if (!response.ok) {
         //     throw new Error('Invalid API Response - FSAPIROUTE - GEMINIFETCH1');
         // };
 
