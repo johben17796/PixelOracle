@@ -15,12 +15,12 @@ export default function Home() {
         setSearch(value);
     }
 
-    const [userFavorites, setUserFavorites] = useState<RawgData>({
-        name: '',
-        slug: '',
-        background_image: '',
-        released: ''
-    });
+    // const [userFavorites, setUserFavorites] = useState<RawgData>({
+    //     name: '',
+    //     slug: '',
+    //     background_image: '',
+    //     released: ''
+    // });
 
     const [newFavorites, setNewFavorites] = useState<RawgData>({
         name: '',
@@ -30,9 +30,10 @@ export default function Home() {
     });
 
     // Troubleshooting functions to display useStates
-    const viewCurrentFavorites = async (event: FormEvent) => {
-        event.preventDefault();
-        console.log(userFavorites)};
+    // const viewCurrentFavorites = async (event: FormEvent) => {
+    //     event.preventDefault();
+    //     console.log(userFavorites)};
+
     const viewNewFavorites = async (event: FormEvent) => {
         event.preventDefault();
         console.log(newFavorites)};
@@ -73,13 +74,12 @@ export default function Home() {
     //     }
     // }
 
-    // Function to get favorite games by user_id
+    // Function to retrieve favorite games list by user_id
     const getUserFavorites = async (event: FormEvent) => {
         event.preventDefault();
         try {
             const data = await getFavorites(1);
             console.log(data);
-            setUserFavorites(data);
         } catch (err) {
             console.error('No matches found!', err);
         }
@@ -118,9 +118,9 @@ export default function Home() {
                 <button type="submit">GET USER 1 FAVORITES FROM SERVER</button>
             </form>
 
-            <form onSubmit={(event: FormEvent) => viewCurrentFavorites(event)}>
+            {/*<form onSubmit={(event: FormEvent) => viewCurrentFavorites(event)}>
                 <button type="submit">VIEW CURRENT USER FAVORITES IN USESTATE</button>
-            </form>
+            </form>*/}
 
             <form onSubmit={(event: FormEvent) => convertRAWG(event)}>
                 <button type="submit">CONVERT DATA</button>
