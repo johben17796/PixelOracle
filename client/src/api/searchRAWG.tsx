@@ -1,15 +1,14 @@
 // import { ApiMessage } from "../interfaces/ApiMessage";
 import { RawgData } from "../interfaces/RawgData";
 
-const searchGames = async () => {
+const searchGames = async (): Promise<RawgData> => {
     try {
-      const response = await fetch('/api/RAWG/', {
+      const response = await fetch('/api/RAWG/allGames', {
         headers: {
           'Content-Type': 'application/json'
         }
       });
       const data = await response.json();
-  
       if(!response.ok) {
         throw new Error('invalid RAWG API response, check network tab!');
       }
@@ -17,7 +16,7 @@ const searchGames = async () => {
       return data;
     } catch (err) {
       console.log('Error from data retrieval:', err);
-      return [];
+      return Promise.reject({});
     }  
   };
   
@@ -33,7 +32,7 @@ const searchGames = async () => {
         throw new Error('invalid RAWG API response, check network tab!');
       }
 
-      return data;
+      return data.results;
     } catch (err) {
       console.log('Error from data retrieval:', err);
       return Promise.reject('No matches for that search criteria');

@@ -4,8 +4,8 @@ import type { Request, Response } from 'express';
 
 const router = express.Router();
 
-// GET /games - Get games from RAWG
-router.get('/games', async (_req: Request, res: Response) => {
+// GET /games - Get all games from RAWG
+router.get('/allGames', async (_req: Request, res: Response) => {
   try {
     console.log(`https://api.rawg.io/api/games?key=${process.env.RAWG_API_KEY}`);
     const response = await fetch(`https://api.rawg.io/api/games?key=${process.env.RAWG_API_KEY}`);
