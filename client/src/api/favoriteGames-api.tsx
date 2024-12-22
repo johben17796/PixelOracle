@@ -11,7 +11,6 @@ const getFavorites = async (user_id: number) => {
         if(!response.ok) {
         throw new Error('invalid user ID!');
         }
-    
         return data;
     } catch (err) {
         console.log('Error from data retrieval:', err);
@@ -21,6 +20,7 @@ const getFavorites = async (user_id: number) => {
 
 const addFavorites = async (user_id: number , newFavorites: RawgData) => {
     console.log({"favorites": newFavorites});
+    console.log(`Adding newFavorites to user favorite list.`);
 try {
     const request = await fetch(`/api/users/addFavoriteGames/${user_id}`, {
     headers: {
@@ -32,8 +32,6 @@ try {
     if(!request.ok) {
     throw new Error('invalid RAWG API response, check network tab!');
     }
-
-    // return data.results;
 } catch (err) {
     console.log('Error from data retrieval:', err);
     return Promise.reject('No matches for that search criteria');

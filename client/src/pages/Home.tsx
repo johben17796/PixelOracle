@@ -47,6 +47,7 @@ export default function Home() {
             released: `${newFavorites.released}`
         }
         setNewFavorites(conversion);
+        console.log('RAWG API reply cleaned to match custom RawgData type format.');
     };
 
     // Function that uses a text input to search for a game from RAWG by slug
@@ -114,11 +115,11 @@ export default function Home() {
             </form>
 
             <form onSubmit={(event: FormEvent) => getUserFavorites(event)}>
-                <button type="submit">GET USER 1 FAVORITES</button>
+                <button type="submit">GET USER 1 FAVORITES FROM SERVER</button>
             </form>
 
             <form onSubmit={(event: FormEvent) => viewCurrentFavorites(event)}>
-                <button type="submit">VIEW CURRENT USER FAVORITES</button>
+                <button type="submit">VIEW CURRENT USER FAVORITES IN USESTATE</button>
             </form>
 
             <form onSubmit={(event: FormEvent) => convertRAWG(event)}>
