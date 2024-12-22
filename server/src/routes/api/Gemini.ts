@@ -9,13 +9,15 @@ dotenv.config();
 const key = process.env.GEMINI_KEY;
 const genAI = new GoogleGenerativeAI(key || '');
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-
+//DO NOT TAKE OUT THE CONSOLE LOGS. CODE BREAKS WITHOUT CONSOLE LOGS FOR SOME REASON.
 function extractJsonString(input: string): string {
-    const extract = input.toString().replace(/[```] json /g, '');
-
-    const extract1 = extract.trim();
-
-    return extract1;
+    const extract = input.toString().replace(/`/g, '');
+    console.log('EXTRACT', extract);
+    const extract1 = extract.toString().replace(/json/g, '');
+    console.log('EXTRACT 1', extract1);
+    const extract2 = extract1.trim();
+    console.log('EXTRACT 2', extract2);
+    return extract2;
 }
 
 function parseJsonArray(input: string): any {
