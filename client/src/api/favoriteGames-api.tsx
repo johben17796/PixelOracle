@@ -1,7 +1,6 @@
 import { RawgData } from "../interfaces/RawgData";
-import { UserData } from "../interfaces/UserData";
 
-const getFavorites = async (user_id: number): Promise<UserData> => {
+const getFavorites = async (user_id: number) => {
     try {
         const response = await fetch(`/api/users/getFavorites/${user_id}`, {
         headers: {
@@ -20,22 +19,17 @@ const getFavorites = async (user_id: number): Promise<UserData> => {
     }
 };
 
-const addFavorites = async (user_id: number ,favorites: RawgData) => {
+const addFavorites = async (user_id: number , newFavorites: RawgData) => {
+    console.log({"favorites": newFavorites});
 try {
-    const response = await fetch(`/api/users/addFavoriteGames/${user_id}`, {
+    const request = await fetch(`/api/users/addFavoriteGames/${user_id}`, {
     headers: {
         'Content-Type': 'application/json',
     },
-    body: JSON.stringify(
-        { 
-            "favorites": [{
-                "name": `${favorites.name}`,
-                "slug": `${favorites.slug}`
-            }]
-        })
+    method:"PUT",
+    body: JSON.stringify({"favorites": newFavorites})
     });
-    // const data = await response.json();
-    if(!response.ok) {
+    if(!request.ok) {
     throw new Error('invalid RAWG API response, check network tab!');
     }
 

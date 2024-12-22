@@ -42,7 +42,7 @@ export function UserFactory(sequelize: Sequelize): typeof User {
       },
       favorites:
       {
-        type: DataTypes.ARRAY(DataTypes.JSON),
+        type: DataTypes.JSON,
         defaultValue: []
       }
     },

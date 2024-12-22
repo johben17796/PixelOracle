@@ -8,6 +8,8 @@ interface GameAttributes {
   game_id: number;
   name: string;
   slug: string;
+  background_image: string;
+  released: string;
   userfav_id: number;
 
 }
@@ -20,6 +22,8 @@ export class Game extends Model<GameAttributes, GameCreationAttributes> implemen
   public game_id!: number;
   public name!: string;
   public slug!: string;
+  public background_image!: string;
+  public released!: string;
   public userfav_id!: number;
 
   // public readonly userfav?: User
@@ -40,7 +44,12 @@ export function GameFactory(sequelize: Sequelize): typeof Game {
       slug: {
         type: DataTypes.STRING,
       },
-
+      background_image: {
+        type: DataTypes.STRING,
+      },
+      released: {
+        type: DataTypes.STRING,
+      },
       userfav_id: {
         type: DataTypes.INTEGER,
         allowNull: true
