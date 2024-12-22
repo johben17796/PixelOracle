@@ -52,7 +52,7 @@ function GameRecs(rec: GameRec[], greeting: string) {
 
     const gameRecsMod = GameRecsModule(rec);
 
-    return(
+    return (
         <section className='recs'>
             <h2>{greeting}</h2>
             <div className='recsModule'>{gameRecsMod}</div>
@@ -88,24 +88,32 @@ function GameRecs(rec: GameRec[], greeting: string) {
 
 const RecsPanel: React.FC = () => {
 
-    const [recSection, setRecSection] = useState<JSX.Element>(<>''</>)
-    const [renderIndex, setRenderIndex] = useState<Boolean>(false)
+    const [recSection, setRecSection] = useState<JSX.Element>(<>''</>);
+    const [renderIndex, setRenderIndex] = useState<Boolean>(false);
+    const [renderRec, setRenderRec] = useState<Boolean>(false);
     const [rec, setRec] = useState<GameRec[]>([]);
-    const [greeting, setGreeting] = useState<string>('')
-    
+    const [greeting, setGreeting] = useState<string>('');
+
+
+
     useEffect(() => {
-        getRec().then((result) => {
-            setRec(result)
-        })
+        if (renderRec === false) {
+            getRec().then((result) => {
+                setRec(result)
+            })
+            setRenderRec(true);
+        }
     });
-    
-    if (renderIndex === false) {
-        const randomIndex = Math.floor(Math.random() * greetingArray.length);
-        setGreeting(greetingArray[randomIndex]);
-        setRenderIndex(true);
-    }
-    
-    useEffect(()=>{
+
+    useEffect(() => {
+        if (renderIndex === false) {
+            const randomIndex = Math.floor(Math.random() * greetingArray.length);
+            setGreeting(greetingArray[randomIndex]);
+            setRenderIndex(true);
+        }
+    });
+
+    useEffect(() => {
         setRecSection(GameRecs(rec, greeting));
     });
 
