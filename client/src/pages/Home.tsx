@@ -15,19 +15,19 @@ export default function Home() {
         setSearch(value);
     }
 
-    // const [userFavorites, setUserFavorites] = useState<RawgData>({
-    //     name: '',
-    //     slug: '',
-    //     background_image: '',
-    //     released: ''
-    // });
-
-    const [newFavorites, setNewFavorites] = useState<RawgData>({
+    const [userFavorites, setUserFavorites] = useState<RawgData[]>([{
         name: '',
         slug: '',
         background_image: '',
         released: ''
-    });
+    }]);
+
+    const [newFavorites, setNewFavorites] = useState<RawgData[]>([{
+        name: '',
+        slug: '',
+        background_image: '',
+        released: ''
+    }]);
 
     // Troubleshooting functions to display useStates
     // const viewCurrentFavorites = async (event: FormEvent) => {
@@ -41,29 +41,40 @@ export default function Home() {
     // Function to convert RAWG data into our custom RawgData type
     const convertRAWG = (event: FormEvent) => {
         event.preventDefault();
-        const conversion = {
-            name: `${newFavorites.name}`,
-            slug: `${newFavorites.slug}`,
-            background_image: `${newFavorites.background_image}`,
-            released: `${newFavorites.released}`
-        }
+        const conversion = [{
+            name: `${newFavorites[0].name}`,
+            slug: `${newFavorites[0].slug}`,
+            background_image: `${newFavorites[0].background_image}`,
+            released: `${newFavorites[0].released}`
+        }]
         setNewFavorites(conversion);
         console.log('RAWG API reply cleaned to match custom RawgData type format.');
     };
 
-    // Function that uses a text input to search for a game from RAWG by slug
+    // Function to concatinate the user favorites with the new favorite selection
+    const concatinateFavorites = (event: FormEvent) => {
+        event.preventDefault();
+
+        const favoritesArray = [...userFavorites, ...newFavorites]
+
+        console.log(favoritesArray);
+
+        setNewFavorites(favoritesArray);
+    };
+
+    // Function that uses a text input to retrieve a game from RAWG by slug
     const searchForGames = async (event: FormEvent, gameTitle: string) => {
         event.preventDefault();
         try {
             const data = await gameInfoSlug(gameTitle);
             console.log(data);
-            setNewFavorites(data);
+            setNewFavorites([data]);
         } catch (err) {
             console.error('No matches found!', err);
         }
     }
 
-    // // Function to search all games on RAWG
+    // Function to search all games on RAWG
     // const searchAllGames = async (event: FormEvent) => {
     //     event.preventDefault();
     //     try {
@@ -80,6 +91,7 @@ export default function Home() {
         try {
             const data = await getFavorites(1);
             console.log(data);
+            setUserFavorites(data);
         } catch (err) {
             console.error('No matches found!', err);
         }
@@ -111,19 +123,19 @@ export default function Home() {
                     id="search"
                     onChange={handleInputchange}
                 />
-                <button type="submit">SEARCH</button>
+                <button type="submit">EXACT SLUG SEARCH</button>
             </form>
 
             <form onSubmit={(event: FormEvent) => getUserFavorites(event)}>
                 <button type="submit">GET USER 1 FAVORITES FROM SERVER</button>
             </form>
 
-            {/*<form onSubmit={(event: FormEvent) => viewCurrentFavorites(event)}>
-                <button type="submit">VIEW CURRENT USER FAVORITES IN USESTATE</button>
-            </form>*/}
-
             <form onSubmit={(event: FormEvent) => convertRAWG(event)}>
-                <button type="submit">CONVERT DATA</button>
+                <button type="submit">CONVERT SEARCH DATA</button>
+            </form>
+
+            <form onSubmit={(event: FormEvent) => concatinateFavorites(event)}>
+                <button type="submit">CONCATINATE FAVORITES</button>
             </form>
 
             <form onSubmit={(event: FormEvent) => viewNewFavorites(event)}>
