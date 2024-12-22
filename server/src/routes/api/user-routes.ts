@@ -24,6 +24,22 @@ router.get('/:id', async (req: Request, res: Response) => {
     }
   });
 
+  // GET Favorites by specified user ID
+  router.get('/getFavorites/:id', async (req: Request, res: Response) => {
+    try {
+     const { id } = req.params;
+     const userData = await User.findByPk(id);
+      if (!userData) {
+        res.status(404).json({ message: 'No user found with that id!' });
+        return;
+      }
+      const favorites = userData.favorites;
+      res.status(200).json(favorites);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  });
+
 
   router.post('/', async (req: Request, res: Response) => {
     try {
@@ -34,8 +50,8 @@ router.get('/:id', async (req: Request, res: Response) => {
     }
   });
 
+  //Add favorites games to a specified user_id
   router.put('/addFavoriteGames/:id', async (req: Request, res: Response) => {
-    //Add favorites games to a specified user_id
     const { id } = req.params;
     //The list of games must be an array of JSON following the Game type
     const { favorites } = req.body;

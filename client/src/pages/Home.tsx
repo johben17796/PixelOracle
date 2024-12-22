@@ -1,6 +1,7 @@
 //imports
 import { useState, FormEvent } from "react";
-import { searchGamesByName, searchGames } from "../api/searchRAWG";
+import { searchGamesByName } from "../api/searchRAWG";
+import { getFavorites } from "../api/favoriteGames-api";
 // import { data } from "react-router-dom";
 // import GameList from "../components/GameList";
 //return code
@@ -13,7 +14,7 @@ export default function Home() {
         setSearch(value);
     }
 
-    //Function that uses a text input to search for a game from RAWG
+    // Function that uses a text input to search for a game from RAWG
     const searchForGames = async (event: FormEvent, gameTitle: string) => {
         event.preventDefault();
         try {
@@ -24,11 +25,22 @@ export default function Home() {
         }
     }
 
-    //Function to search all games on RAWG
-    const searchAllGames = async (event: FormEvent) => {
+    // // Function to search all games on RAWG
+    // const searchAllGames = async (event: FormEvent) => {
+    //     event.preventDefault();
+    //     try {
+    //         const data = await searchGames();
+    //         console.log(data);
+    //     } catch (err) {
+    //         console.error('No matches found!', err);
+    //     }
+    // }
+
+    // Function to get favorite games by user_id
+    const getUserFavorites = async (event: FormEvent) => {
         event.preventDefault();
         try {
-            const data = await searchGames();
+            const data = await getFavorites(1);
             console.log(data);
         } catch (err) {
             console.error('No matches found!', err);
@@ -53,8 +65,8 @@ export default function Home() {
                 />
                 <button type="submit">SEARCH</button>
             </form>
-            <form onSubmit={(event: FormEvent) => searchAllGames(event)}>
-                <button type="submit">GET ALL GAMES</button>
+            <form onSubmit={(event: FormEvent) => getUserFavorites(event)}>
+                <button type="submit">GET USER 1 FAVORITES</button>
             </form>
             <p>Or pick from the list below!</p>
             {/* <GameList /> */}
