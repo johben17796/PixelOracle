@@ -35,12 +35,12 @@ a:hover {
   color: var(--hoverHighlighter);
 }
 
-#root {
-  width: 100%;
-  margin: auto;
+body {
+  margin: 0;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  place-items: top;
+  min-width: 320px;
+  min-height: 100vh;
 }
 
 h1 {
@@ -53,17 +53,17 @@ h1 {
 
 header {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  /* margin: auto; */
+  /* width: 100%; */
 }
 
 .logo {
   height: 250px;
   width: 250px;
-
-  animation: fade 5s infinite;
-
+  margin-left: 50px;
+  margin-right: 50px;
 }
 
 nav {
@@ -76,28 +76,23 @@ nav > ul > li {
 }
 
 #loginButton {
-  height: 50px;
-  width: 250px;
-  /* margin: 50px; */
+  justify-content: right;
+  height: 100px;
+  width: 100px;
+  margin: 50px;
 }
 
 footer {
   background-color: var(--backgroundPrimary);
   color: var(--textSecondary);
-  text-align: center;
 }
 
 /* Body and text */
 
-main {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-
-  border: 2px solid var(--textPrimary);
-  border-radius: 20px;
+.bottomFlex {
+  margin: auto;
+  width: 90%;
+  justify-items: center;
 }
 
 /* component specific */
@@ -119,27 +114,6 @@ button:hover {
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
-}
-
-input {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: text;
-  transition: border-color 0.25s;
-}
-
-@keyframes fade {
-  0%, 25%, 75%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.8;
-  }
 }
 
 #root {

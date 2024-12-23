@@ -1,4 +1,3 @@
-
 //imports
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
@@ -10,7 +9,6 @@ import Home from './pages/Home.tsx';
 import Error from './pages/Error.tsx';
 import Profile from './pages/Profile.tsx';
 import RecsPage from './pages/Recs.tsx';
-import Login from "./pages/Login.tsx";
 
 //Router definition
 
@@ -31,11 +29,7 @@ const router = createBrowserRouter([
       {
         path: '/List',
         element: <RecsPage />
-      },
-      {
-        path: '/Login', 
-        element: <Login />,
-      },
+      }
     ],
   },
 ]);
@@ -44,4 +38,3 @@ const rootElement = document.getElementById('root');
 if (rootElement) {
   ReactDOM.createRoot(rootElement).render(<RouterProvider router={router} />);
 }
-
