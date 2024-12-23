@@ -1,6 +1,6 @@
 //imports
 import { useState, FormEvent } from "react";
-import { gameInfoSlug } from "../api/searchRAWG";
+import { gameInfoSlug, searchGamesByName } from "../api/searchRAWG";
 import { getFavorites, addFavorites } from "../api/favoriteGames-api";
 import { RawgData } from "../interfaces/RawgData";
 import RecsPanel from "../components/GameRecs";
@@ -14,6 +14,12 @@ export default function Home() {
     const handleInputchange = (e: any) => {
         const { value } = e.target;
         setSearch(value);
+    }
+    // useState for the Seach by Name field
+    const [search1, setSearch1] = useState<string>('');
+    const handleInputchange2 = (e: any) => {
+        const { value } = e.target;
+        setSearch1(value);
     }
     // useState for the Favorite Deletion Field
     const [indexSlug, setIndexSlug] = useState<string>('');
@@ -150,7 +156,41 @@ export default function Home() {
         }
     }
 
-    // Function to give random games to gemini and load the rec based on that.
+    // Function stack above functions to automatically add info to games database
+    const addRAWGtoFavorites = async (event: FormEvent, gameTitle: string, user_id: number) => {
+        event.preventDefault();
+    
+        //Search RAWG for game by name
+        try {
+            const search = await searchGamesByName(gameTitle);
+            const userfavs = await getFavorites(1);
+            setUserFavorites(userfavs);
+            console.log(search);
+            const fav = search[0];
+            setNewFavorites([fav]);
+
+            const conversion = [{
+                name: `${fav.name}`,
+                slug: `${fav.slug}`,
+                background_image: `${fav.background_image}`,
+                released: `${fav.released}`
+            }]
+            setNewFavorites(conversion);
+
+            const favoritesArray = [...userFavorites, ...[fav]];
+            console.log('CONCAT', favoritesArray);
+            setNewFavorites(favoritesArray);
+
+        } catch (error) {
+            console.error('No Matches Found!', error);
+        }
+
+        try {
+            addFavorites(user_id, newFavorites);
+        } catch (error) {
+            console.error('Unable to update Favorites!', error);
+        }
+    }
 
     return (
         <>
@@ -169,6 +209,16 @@ export default function Home() {
                     onChange={handleInputchange}
                 />
                 <button type="submit">EXACT SLUG SEARCH</button>
+            </form>
+
+            <form className="searchArea" onSubmit={(event: FormEvent) => addRAWGtoFavorites(event, search1, 1)}>
+                <input
+                    value={search1}
+                    placeholder="Find a Game!"
+                    id="search"
+                    onChange={handleInputchange2}
+                />
+                <button type="submit">Search by Title</button>
             </form>
 
             <form onSubmit={(event: FormEvent) => getUserFavorites(event)}>
