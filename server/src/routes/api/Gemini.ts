@@ -36,9 +36,25 @@ const router = express.Router();
 router.get('/', async (_req: Request, res: Response) => {
     try {
 
-        // TODO: PULL GAMES FROM SQL
-        const games = [''];
-        const gameInject = games.toString();
+        let games = [''];
+
+        //GAMES FETCH
+
+
+        // if (!gamesArray) {
+        //     throw new Error('ERROR - SERVER - GEMINIXFAVS');
+        // } else {
+        //     games = gamesArray;
+        //     console.log('GAMES REQUEST SUCCESS');
+        //     console.log('GAMEINPUT:', games);
+        // }
+        //END GAMES FETCH
+
+        let gameInject = games.toString();
+
+        if (gameInject === '') {
+            gameInject = 'widely varied, with no specific selections.'
+        }
 
         const prompt = `My favorite video games are ${gameInject}.
         As a modern video game reviewer with a wide knowledge of video games both popular and obscure, please recommend me three more games to play, and explain why I should play them.
