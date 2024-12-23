@@ -64,11 +64,11 @@ export default function Home() {
     //     console.log(userFavorites)};
 
     // Troubleshooting function to display useState for pending changes to the user favorites
-    const viewNewFavorites = async (event: FormEvent) => {
-        event.preventDefault();
-        console.log("Pending Favorites List:");
-        console.log(newFavorites);
-    }
+    // const viewNewFavorites = async (event: FormEvent) => {
+    //     event.preventDefault();
+    //     console.log("Pending Favorites List:");
+    //     console.log(newFavorites);
+    // }
 
     // Function to convert RAWG data into our custom RawgData type
     // const convertRAWG = (event: FormEvent) => {
@@ -207,7 +207,8 @@ export default function Home() {
             }]
             // setNewFavorites(conversion);
 
-            const favoritesArray = [...userFavorites, ...conversion];
+            // const favoritesArray = [...userFavorites, ...conversion];
+            const favoritesArray = await concatenateThings(conversion);
             console.log('CONCAT', favoritesArray);
             setNewFavorites(favoritesArray);
 
@@ -236,9 +237,9 @@ export default function Home() {
                 <button type="submit">RETRIEVE SAVED FAVORITES</button>
             </form>
 
-            <form onSubmit={(event: FormEvent) => viewNewFavorites(event)}>
+            {/* <form onSubmit={(event: FormEvent) => viewNewFavorites(event)}>
                 <button type="submit">VIEW PENDING FAVORITES CHANGES</button>
-            </form>
+            </form> */}
 
             <form onSubmit={(event: FormEvent) => addNewFavorites(event, 1)}>
                 <button type="submit">UPDATE FAVORITES LIST</button>
