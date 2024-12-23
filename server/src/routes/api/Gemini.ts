@@ -33,24 +33,14 @@ function parseJsonArray(input: string): any {
 const router = express.Router();
 
 //get response based on variable
-router.get('/', async (_req: Request, res: Response) => {
+router.get('/:favorites', async (_req: Request, res: Response) => {
+
+    let { favorites } = _req.params;
+    console.log('Favs recieved:', favorites);
+
     try {
 
-        let games = [''];
-
-        //GAMES FETCH
-
-
-        // if (!gamesArray) {
-        //     throw new Error('ERROR - SERVER - GEMINIXFAVS');
-        // } else {
-        //     games = gamesArray;
-        //     console.log('GAMES REQUEST SUCCESS');
-        //     console.log('GAMEINPUT:', games);
-        // }
-        //END GAMES FETCH
-
-        let gameInject = games.toString();
+        let gameInject = favorites.toString();
 
         if (gameInject === '') {
             gameInject = 'widely varied, with no specific selections.'

@@ -3,6 +3,7 @@ import { useState, FormEvent } from "react";
 import { gameInfoSlug } from "../api/searchRAWG";
 import { getFavorites, addFavorites } from "../api/favoriteGames-api";
 import { RawgData } from "../interfaces/RawgData";
+import RecsPanel from "../components/GameRecs";
 // import { data } from "react-router-dom";
 // import GameList from "../components/GameList";
 
@@ -34,6 +35,27 @@ export default function Home() {
         background_image: '',
         released: ''
     }]);
+
+    // useState for the rendering of recs page
+    const [recMessage, setRecMessage] = useState<string>('Consult the Oracle.');
+    const [panel, setPanel] = useState<Boolean>(false);
+    const [recPanel, setRecPanel] = useState<JSX.Element>(<></>);
+
+    const recButtonHandler = (e: FormEvent) => {
+        e.preventDefault();
+
+        if(panel){
+            setPanel(false);
+            setRecPanel(<></>);
+            console.log('setPanel false');
+            setRecMessage('Consult the Oracle.');
+        } else {
+            setPanel(true);
+            setRecPanel(<RecsPanel />);
+            console.log('setPanel true');
+            setRecMessage('Enough of the Oracle.');
+        }
+    }
 
     // Troubleshooting function to display useState for the saved user favorites
     // const viewCurrentFavorites = async (event: FormEvent) => {
@@ -128,6 +150,8 @@ export default function Home() {
         }
     }
 
+    // Function to give random games to gemini and load the rec based on that.
+
     return (
         <>
         <section>
@@ -176,6 +200,12 @@ export default function Home() {
                 />
                 <button type="submit">FLAG FAVORITE FOR REMOVAL</button>
             </form>
+
+            <form onSubmit={(event: FormEvent) => recButtonHandler(event)}>
+                <button type="submit">{recMessage}</button>
+            </form>
+
+            {recPanel}
 
             <p>Or pick from the list below!</p>
             {/* <GameList /> */}
