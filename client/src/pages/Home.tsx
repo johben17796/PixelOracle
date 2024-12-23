@@ -194,7 +194,6 @@ export default function Home() {
 
     return (
         <>
-        <section>
             <div className="homeBanner">
                 <h1>PixelOracle</h1>
                 <p>Need a new game? Consult the Oracle...</p>
@@ -259,7 +258,6 @@ export default function Home() {
 
             <p>Or pick from the list below!</p>
             {/* <GameList /> */}
-        </section>
         </>
     );
 }

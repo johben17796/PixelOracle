@@ -135,7 +135,7 @@ const RecsPanel: React.FC = () => {
             <h1>{greeting}</h1>
             {recSection}
             <form onSubmit={(event: FormEvent) => buttonHandler(event)}>
-                <button type="submit">Get new Reccomendations.</button>
+                <button type="submit">Get Reccomendations.</button>
             </form>
         </section>
     )
