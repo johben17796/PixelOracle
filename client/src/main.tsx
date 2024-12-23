@@ -1,6 +1,6 @@
-/*//imports
-import { StrictMode } from 'react';
-import { createRoot } from 'react-dom/client';
+
+//imports
+import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 //imports - css
 import './index.css'
@@ -10,6 +10,7 @@ import Home from './pages/Home.tsx';
 import Error from './pages/Error.tsx';
 import Profile from './pages/Profile.tsx';
 import RecsPage from './pages/Recs.tsx';
+import Login from "./pages/Login.tsx";
 
 //Router definition
 
@@ -28,27 +29,19 @@ const router = createBrowserRouter([
         element: <Profile />,
       },
       {
-        path: '/Recs',
+        path: '/List',
         element: <RecsPage />
-      }
+      },
+      {
+        path: '/Login', 
+        element: <Login />,
+      },
     ],
   },
 ]);
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <RouterProvider router={router} />
-  </StrictMode>,
-) */
+const rootElement = document.getElementById('root');
+if (rootElement) {
+  ReactDOM.createRoot(rootElement).render(<RouterProvider router={router} />);
+}
 
-
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.tsx'
-
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
-);

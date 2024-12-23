@@ -1,13 +1,15 @@
 //imports
-
-import NavBar from "./Nav";
+import { Link } from "react-router-dom";
 
 //display function
 export default function Header() {
     return (
-        <section className="header">
-            <img src="https://placecats.com/millie/300/150" alt="PLACEHOLDER"></img>
-            <NavBar />
-        </section>
+        <>
+        <img className="logo" src="/img/PixelOracle.png" alt="PixelOracle"></img>
+        <Link to="/Login">
+          <button id="loginButton" type="submit">LOGIN</button>         
+        </Link>
+        </>
     )
 }
+

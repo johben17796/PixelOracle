@@ -1,24 +1,28 @@
+//imports & interface
+
+
 import React, { useEffect, useState } from 'react';
-import { fetchGames } from '../api/rawgApi';
+import { fetchGames } from '../api/gamesApi';
 
 interface Game {
-  id: number;
+    id: number;
   name: string;
   background_image: string;
   released: string;
 }
 
+//return code
 const GameList: React.FC = () => {
   const [games, setGames] = useState<Game[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-
+  
   useEffect(() => {
-    const loadGames = async () => {
-      try {
-        const data = await fetchGames();
-        setGames(data.results);
-      } catch (err) {
+      const loadGames = async () => {
+          try {
+              const data = await fetchGames();
+              setGames(data.results);
+            } catch (err) {
         setError('Failed to fetch games.');
       } finally {
         setLoading(false);
