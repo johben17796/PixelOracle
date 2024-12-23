@@ -63,41 +63,63 @@ export default function Home() {
     //     console.log(userFavorites)};
 
     // Troubleshooting function to display useState for pending changes to the user favorites
-    const viewNewFavorites = async (event: FormEvent) => {
-        event.preventDefault();
-        console.log(newFavorites)};
+    // const viewNewFavorites = async (event: FormEvent) => {
+    //     event.preventDefault();
+    //     console.log("Pending Favorites List:");
+    //     console.log(newFavorites);
+    // }
 
     // Function to convert RAWG data into our custom RawgData type
-    const convertRAWG = (event: FormEvent) => {
-        event.preventDefault();
+    // const convertRAWG = (event: FormEvent) => {
+    //     event.preventDefault();
+    //     const conversion = [{
+    //         name: `${newFavorites[0].name}`,
+    //         slug: `${newFavorites[0].slug}`,
+    //         background_image: `${newFavorites[0].background_image}`,
+    //         released: `${newFavorites[0].released}`
+    //     }]
+    //     setNewFavorites(conversion);
+    //     console.log('RAWG API reply cleaned to match custom RawgData type format.');
+    // };
+
+    // Function to clean the reply data from RAWG
+    const cleanResults = async (data: RawgData) => {
         const conversion = [{
-            name: `${newFavorites[0].name}`,
-            slug: `${newFavorites[0].slug}`,
-            background_image: `${newFavorites[0].background_image}`,
-            released: `${newFavorites[0].released}`
+            name: `${data.name}`,
+            slug: `${data.slug}`,
+            background_image: `${data.background_image}`,
+            released: `${data.released}`
         }]
-        setNewFavorites(conversion);
         console.log('RAWG API reply cleaned to match custom RawgData type format.');
+        console.log(conversion);
+        return conversion;
     };
 
     // Function to concatinate the user favorites with the new favorite selection
-    const concatenateFavorites = (event: FormEvent) => {
-        event.preventDefault();
+    // const concatenateFavorites = (event: FormEvent) => {
+    //     event.preventDefault();
+    //     const favoritesArray = [...userFavorites, ...newFavorites]
+    //     console.log(favoritesArray);
+    //     setNewFavorites(favoritesArray);
+    // };
 
-        const favoritesArray = [...userFavorites, ...newFavorites]
-
+    // Function to concatinate the user favorites with the new favorite selection
+    const concatenateThings = async (things: RawgData[]) => {
+        const favoritesArray = [...userFavorites, ...things]
         console.log(favoritesArray);
-
-        setNewFavorites(favoritesArray);
+        return favoritesArray;
     };
 
-    // Function that uses a text input to retrieve a game from RAWG by slug
-    const searchForGames = async (event: FormEvent, gameTitle: string) => {
+    // Function that uses a text input to retrieve a game from RAWG by slug, and then add the results to PENDING FAVORITES CHANGES
+    const searchForGames = async (event: FormEvent, gameSlug: string) => {
         event.preventDefault();
         try {
-            const data = await gameInfoSlug(gameTitle);
+            const data = await gameInfoSlug(gameSlug);
             console.log(data);
-            setNewFavorites([data]);
+            const cleanData = await cleanResults(data);
+            console.log("Appending search results to Pending Favorites List.");
+            const newArray = await concatenateThings(cleanData);
+            setNewFavorites(newArray);
         } catch (err) {
             console.error('No matches found!', err);
         }
@@ -134,6 +156,8 @@ export default function Home() {
             console.log(`Flagging favorite at index ${resultsIndex} of array for deletion.`);
             const arrayLeft = userFavorites.slice(0, resultsIndex);
             const arrayRight = userFavorites.slice(resultsIndex+1);
+            console.log("Pending Favorites List:");
+            console.log([...arrayLeft, ...arrayRight]);
             setNewFavorites([...arrayLeft, ...arrayRight]);
         } catch (err) {
             console.error('No matches found!', err);
@@ -160,6 +184,18 @@ export default function Home() {
                 <p>Need a new game? Consult the Oracle...</p>
                 {/* background image - simple texture */}
             </div>
+            <form onSubmit={(event: FormEvent) => getUserFavorites(event)}>
+                <button type="submit">RETRIEVE SAVED FAVORITES</button>
+            </form>
+
+            {/* <form onSubmit={(event: FormEvent) => viewNewFavorites(event)}>
+                <button type="submit">VIEW PENDING FAVORITES CHANGES</button>
+            </form> */}
+
+            <form onSubmit={(event: FormEvent) => addNewFavorites(event, 1)}>
+                <button type="submit">UPDATE FAVORITES LIST</button>
+            </form>
+
             {/* search bar to build rawg request */}
             <form className="searchArea" onSubmit={(event: FormEvent) => searchForGames(event, search)}>
                 <input
@@ -171,25 +207,13 @@ export default function Home() {
                 <button type="submit">EXACT SLUG SEARCH</button>
             </form>
 
-            <form onSubmit={(event: FormEvent) => getUserFavorites(event)}>
-                <button type="submit">RETRIEVE SAVED FAVORITES</button>
-            </form>
-
-            <form onSubmit={(event: FormEvent) => convertRAWG(event)}>
+            {/* <form onSubmit={(event: FormEvent) => convertRAWG(event)}>
                 <button type="submit">CONVERT SEARCH DATA</button>
-            </form>
+            </form> */}
 
-            <form onSubmit={(event: FormEvent) => concatenateFavorites(event)}>
+            {/* <form onSubmit={(event: FormEvent) => concatenateFavorites(event)}>
                 <button type="submit">CONCATENATE FAVORITES</button>
-            </form>
-
-            <form onSubmit={(event: FormEvent) => viewNewFavorites(event)}>
-                <button type="submit">VIEW PENDING FAVORITES CHANGES</button>
-            </form>
-
-            <form onSubmit={(event: FormEvent) => addNewFavorites(event, 1)}>
-                <button type="submit">UPDATE FAVORITES LIST</button>
-            </form>
+            </form> */}
 
             <form className="searchArea" onSubmit={(event: FormEvent) => locateRemoveIndex(event, indexSlug)}>
                 <input
