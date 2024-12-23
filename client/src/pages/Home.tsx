@@ -1,5 +1,5 @@
 //imports
-import { useState, FormEvent } from "react";
+import { useState, FormEvent, useEffect } from "react";
 import { gameInfoSlug, searchGamesByName } from "../api/searchRAWG";
 import { getFavorites, addFavorites } from "../api/favoriteGames-api";
 import { RawgData } from "../interfaces/RawgData";
@@ -35,12 +35,7 @@ export default function Home() {
         released: ''
     }]);
     // useState for pending changes to the user favorites
-    const [newFavorites, setNewFavorites] = useState<RawgData[]>([{
-        name: '',
-        slug: '',
-        background_image: '',
-        released: ''
-    }]);
+    const [newFavorites, setNewFavorites] = useState<RawgData[]>([] as RawgData[]);
 
     // useState for the rendering of recs page
     const [recMessage, setRecMessage] = useState<string>('Consult the Oracle.');
@@ -69,11 +64,11 @@ export default function Home() {
     //     console.log(userFavorites)};
 
     // Troubleshooting function to display useState for pending changes to the user favorites
-    // const viewNewFavorites = async (event: FormEvent) => {
-    //     event.preventDefault();
-    //     console.log("Pending Favorites List:");
-    //     console.log(newFavorites);
-    // }
+    const viewNewFavorites = async (event: FormEvent) => {
+        event.preventDefault();
+        console.log("Pending Favorites List:");
+        console.log(newFavorites);
+    }
 
     // Function to convert RAWG data into our custom RawgData type
     // const convertRAWG = (event: FormEvent) => {
@@ -111,7 +106,8 @@ export default function Home() {
 
     // Function to concatinate the user favorites with the new favorite selection
     const concatenateThings = async (things: RawgData[]) => {
-        const favoritesArray = [...userFavorites, ...things]
+        let favoritesArray = [...userFavorites, ...things]
+        if (newFavorites.length !== 0) {favoritesArray = [...newFavorites, ...things]};
         console.log(favoritesArray);
         return favoritesArray;
     };
@@ -146,8 +142,18 @@ export default function Home() {
     const getUserFavorites = async (event: FormEvent) => {
         event.preventDefault();
         try {
-            const data = await getFavorites(1);
+            const data: RawgData[] = await getFavorites(1);
             console.log(data);
+            setUserFavorites(data);
+        } catch (err) {
+            console.error('No matches found!', err);
+        }
+    }
+
+    // Function to retrieve favorite games list by user_id
+    const initUserFavorites = async () => {
+        try {
+            const data: RawgData[] = await getFavorites(1);
             setUserFavorites(data);
         } catch (err) {
             console.error('No matches found!', err);
@@ -181,17 +187,17 @@ export default function Home() {
     }
 
     // Function stack above functions to automatically add info to games database
-    const addRAWGtoFavorites = async (event: FormEvent, gameTitle: string, user_id: number) => {
+    const addRAWGtoFavorites = async (event: FormEvent, gameTitle: string) => {
         event.preventDefault();
     
         //Search RAWG for game by name
         try {
             const search = await searchGamesByName(gameTitle);
-            const userfavs = await getFavorites(1);
-            setUserFavorites(userfavs);
+            // const userfavs = await getFavorites(1);
+            // setUserFavorites(userfavs);
             console.log(search);
             const fav = search[0];
-            setNewFavorites([fav]);
+            // setNewFavorites([fav]);
 
             const conversion = [{
                 name: `${fav.name}`,
@@ -199,22 +205,25 @@ export default function Home() {
                 background_image: `${fav.background_image}`,
                 released: `${fav.released}`
             }]
-            setNewFavorites(conversion);
+            // setNewFavorites(conversion);
 
-            const favoritesArray = [...userFavorites, ...[fav]];
+            const favoritesArray = [...userFavorites, ...conversion];
             console.log('CONCAT', favoritesArray);
             setNewFavorites(favoritesArray);
 
         } catch (error) {
             console.error('No Matches Found!', error);
         }
-
-        try {
-            addFavorites(user_id, newFavorites);
-        } catch (error) {
-            console.error('Unable to update Favorites!', error);
-        }
+        // try {
+        //     addFavorites(user_id, newFavorites);
+        // } catch (error) {
+        //     console.error('Unable to update Favorites!', error);
+        // }
     }
+
+    useEffect(() => {
+        initUserFavorites();
+    }, []);
 
     return (
         <>
@@ -227,9 +236,9 @@ export default function Home() {
                 <button type="submit">RETRIEVE SAVED FAVORITES</button>
             </form>
 
-            {/* <form onSubmit={(event: FormEvent) => viewNewFavorites(event)}>
+            <form onSubmit={(event: FormEvent) => viewNewFavorites(event)}>
                 <button type="submit">VIEW PENDING FAVORITES CHANGES</button>
-            </form> */}
+            </form>
 
             <form onSubmit={(event: FormEvent) => addNewFavorites(event, 1)}>
                 <button type="submit">UPDATE FAVORITES LIST</button>
@@ -239,28 +248,24 @@ export default function Home() {
             <form className="searchArea" onSubmit={(event: FormEvent) => searchForGames(event, search)}>
                 <input
                     value={search}
-                    placeholder="Find a Game!"
+                    placeholder="Find a Game by Slug!"
                     id="search"
                     onChange={handleInputchange}
                 />
                 <button type="submit">EXACT SLUG SEARCH</button>
             </form>
 
-            <form className="searchArea" onSubmit={(event: FormEvent) => addRAWGtoFavorites(event, search1, 1)}>
+            <form className="searchArea" onSubmit={(event: FormEvent) => addRAWGtoFavorites(event, search1)}>
                 <input
                     value={search1}
-                    placeholder="Find a Game!"
+                    placeholder="Find a Game by Title!"
                     id="search"
                     onChange={handleInputchange2}
                 />
                 <button type="submit">SEARCH BY TITLE</button>
             </form>
 
-            <form onSubmit={(event: FormEvent) => getUserFavorites(event)}>
-                <button type="submit">RETRIEVE SAVED FAVORITES</button>
-            </form>
-
-            <form onSubmit={(event: FormEvent) => convertRAWG(event)}>
+            {/* <form onSubmit={(event: FormEvent) => convertRAWG(event)}>
                 <button type="submit">CONVERT SEARCH DATA</button>
             </form> */}
 
@@ -271,7 +276,7 @@ export default function Home() {
             <form className="searchArea" onSubmit={(event: FormEvent) => locateRemoveIndex(event, indexSlug)}>
                 <input
                     value={indexSlug}
-                    placeholder="Index Slug"
+                    placeholder="Flag Favorite for Deletion by Slug."
                     id="locateIndex"
                     onChange={handleInputchange1}
                 />
