@@ -20,7 +20,7 @@ const searchGames = async (): Promise<RawgData> => {
     }  
   };
   
-  const searchGamesByName = async (title: string | null): Promise<RawgData> => {
+  const searchGamesByName = async (title: string | null): Promise<RawgData[]> => {
     try {
       const response = await fetch(`/api/RAWG/gamesByName/${title}`, {
         headers: {
