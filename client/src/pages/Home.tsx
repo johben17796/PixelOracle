@@ -222,7 +222,7 @@ export default function Home() {
             </form>
 
             <form onSubmit={(event: FormEvent) => getUserFavorites(event)}>
-                <button type="submit">GET USER 1 FAVORITES FROM SERVER</button>
+                <button type="submit">RETRIEVE SAVED FAVORITES</button>
             </form>
 
             <form onSubmit={(event: FormEvent) => convertRAWG(event)}>

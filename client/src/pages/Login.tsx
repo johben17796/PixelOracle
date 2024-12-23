@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 // import axios from "axios";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
 
@@ -77,10 +77,11 @@ const Login: React.FC = () => {
 
   return (
     <div className="login-page">
+      <h1>Login Page</h1>
       <h1>RAWG API {isRegistering ? "Register" : "Login"}</h1>
       {token ? (
         <div>
-          <p>Welcome to RAWG API! You are logged in.</p>
+          <p>Welcome to Four Tet RAWG API! You are logged in.</p>
           <button
             onClick={() => {
               setToken(null);
@@ -158,3 +159,4 @@ const Login: React.FC = () => {
 };
 
 export default Login;
+
