@@ -1,28 +1,6 @@
 /* Login.css */
 
-body {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-    background-color: #1a1a1a; /* Dark background */
-    color: #ffffff; /* White text for contrast */
-  }
-  
-  .login-page {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-  }
-  
-  h1 {
-    font-size: 2rem;
-    margin-bottom: 1.5rem;
-    color: #6366f1; /* Bright blue title */
-    text-align: center;
-  }
-  
+ 
   form {
     background-color: #2c2c2c; /* Slightly lighter background for the form */
     padding: 20px;
@@ -59,25 +37,6 @@ body {
     outline: 2px solid #6366f1; /* Highlight input when focused */
   }
   
-  button {
-    padding: 10px 15px;
-    border: none;
-    border-radius: 4px;
-    font-size: 1rem;
-    color: #ffffff;
-    background-color: #6366f1; /* Bright blue button */
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  
-  button:hover {
-    background-color: #4f4dff; /* Slightly darker blue on hover */
-  }
-  
-  button:disabled {
-    background-color: #4c4c4c; /* Grey color for disabled button */
-    cursor: not-allowed;
-  }
   
   .link-button {
     background: none;

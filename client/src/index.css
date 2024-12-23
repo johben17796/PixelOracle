@@ -78,7 +78,6 @@ nav > ul > li {
 #loginButton {
   height: 50px;
   width: 250px;
-  /* margin: 50px; */
 }
 
 footer {
@@ -98,6 +97,14 @@ main {
 
   border: 2px solid var(--textPrimary);
   border-radius: 20px;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: top;
+  min-width: 320px;
+  min-height: 100vh;
 }
 
 /* component specific */
