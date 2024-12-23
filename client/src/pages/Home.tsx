@@ -218,7 +218,7 @@ export default function Home() {
                     id="search"
                     onChange={handleInputchange2}
                 />
-                <button type="submit">Search by Title</button>
+                <button type="submit">SEARCH BY TITLE</button>
             </form>
 
             <form onSubmit={(event: FormEvent) => getUserFavorites(event)}>
