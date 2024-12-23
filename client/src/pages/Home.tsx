@@ -59,7 +59,7 @@ export default function Home() {
     };
 
     // Function to concatinate the user favorites with the new favorite selection
-    const concatinateFavorites = (event: FormEvent) => {
+    const concatenateFavorites = (event: FormEvent) => {
         event.preventDefault();
 
         const favoritesArray = [...userFavorites, ...newFavorites]
@@ -155,8 +155,8 @@ export default function Home() {
                 <button type="submit">CONVERT SEARCH DATA</button>
             </form>
 
-            <form onSubmit={(event: FormEvent) => concatinateFavorites(event)}>
-                <button type="submit">CONCATINATE FAVORITES</button>
+            <form onSubmit={(event: FormEvent) => concatenateFavorites(event)}>
+                <button type="submit">CONCATENATE FAVORITES</button>
             </form>
 
             <form onSubmit={(event: FormEvent) => viewNewFavorites(event)}>
