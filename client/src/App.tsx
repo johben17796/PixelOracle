@@ -2,21 +2,19 @@ import { Outlet } from 'react-router-dom';
 import Header from './components/Header.js';
 import Footer from './components/Footer.js';
 function App() {
-//TODO: IMPLEMENT LIGHT/DARK
+  //TODO: IMPLEMENT LIGHT/DARK
   return (
-    <>
+    <div className='container'>
       <header>
         <Header />
       </header>
-      <div className='bottomFlex'>
       <main>
         <Outlet />
       </main>
       <footer>
         <Footer />
       </footer>
-      </div>
-    </>
+    </div>
   )
 }
 
