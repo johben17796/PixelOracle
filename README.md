@@ -58,5 +58,5 @@ GitHub Repository: https://github.com/johben17796/PixelOracle
 
 
 
-Contact us here: [lucas.hallmanc@gmail.com](lucas.hallmanc@gmail.com). [ralphlawal659@gmail.com](ralphlawal659@gmail.com), [johben17796@gmail.com](johben17796@gmail.com), [christopher.makousky@gmail.com](christopher.makousky@gmail.com)
+Contact us here: [lucas.hallmanc@gmail.com](lucas.hallmanc@gmail.com). [ralphlawal659@gmail.com](ralphlawal659@gmail.com), [johben17796@gmail.com](johben17796@gmail.com), [christopher.makousky@gmail.com](christopher.makousky@gmail.com).
 
